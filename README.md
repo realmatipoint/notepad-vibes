@@ -5,7 +5,7 @@
 **the most beautiful notepad list you'll ever use**
 
 <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/realmatipoint/vibe-to-do/raw/main/darkpreview.png">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/realmatipoint/notepad-vibes/raw/main/previewdark.png">
     <source media="(prefers-color-scheme: light)" srcset="https://github.com/realmatipoint/vibe-to-do/raw/main/png1.png">
     <img src="https://github.com/realmatipoint/vibe-to-do/raw/main/darkpreview.png" alt="vibe to-do • pure calm" width="700" style="border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.4);">
   </picture>
