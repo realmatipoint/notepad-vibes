@@ -1,0 +1,140 @@
+:root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --text: #c9d1d9;
+    --text-muted: #8b949e;
+    --border: #30363d;
+    --primary: #58a6ff;
+    --danger: #f85149;
+    --success: #238636;
+}
+
+[data-theme="light"] {
+    --bg: #ffffff;
+    --surface: #f6f8fa;
+    --text: #24292f;
+    --text-muted: #57606a;
+    --border: #d0d7de;
+    --primary: #0969da;
+    --danger: #cf222e;
+    --success: #1a7f37;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.container { max-width: 700px; margin: 0 auto; }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #ffa399, #ff8ef0, #95f1ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+#theme-toggle:hover {
+    background: var(--surface);
+    transform: rotate(20deg);
+}
+
+textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 1.1rem;
+    resize: vertical;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+}
+
+button[type="submit"] {
+    padding: 0.8rem 1.5rem;
+    background: var(--success);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button[type="submit"]:hover {
+    background: #2ea043;
+    transform: translateY(-2px);
+}
+
+.notes { margin-top: 3rem; }
+.note {
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    position: relative;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+}
+
+.note:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.note p {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+small { color: var(--text-muted); }
+
+.delete {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: var(--danger);
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: bold;
+    opacity: 0.7;
+    transition: 0.2s;
+}
+
+.delete:hover {
+    opacity: 1;
+    transform: scale(1.3);
+}

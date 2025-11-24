@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vibe notes ✧</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✧ vibe notes ✧</h1>
+            <button id="theme-toggle">🌙</button>
+        </header>
+
+        <form id="note-form">
+            <textarea id="note-input" placeholder="what's the vibe today..." required></textarea>
+            <button type="submit">save it</button>
+        </form>
+
+        <div class="notes" id="notes-container">
+            <!-- notes go here -->
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('note-form');
+        const input = document.getElementById('note-input');
+        const notesContainer = document.getElementById('notes-container');
+        const toggleBtn = document.getElementById('theme-toggle');
+
+        // === THEME SYSTEM ===
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        toggleBtn.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+
+        toggleBtn.addEventListener('click', () => {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const newTheme = theme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+        });
+
+        // === NOTES SYSTEM (localStorage + fallback to server) ===
+        function saveNote(content) {
+            const notes = getNotes();
+            const timestamp = new Date().toLocaleString();
+            notes.unshift({ id: Date.now(), content, timestamp });
+            localStorage.setItem('vibeNotes', JSON.stringify(notes));
+            renderNotes();
+        }
+
+        function getNotes() {
+            const data = localStorage.getItem('vibeNotes');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function deleteNote(id) {
+            let notes = getNotes();
+            notes = notes.filter(n => n.id !== id);
+            localStorage.setItem('vibeNotes', JSON.stringify(notes));
+            renderNotes();
+        }
+
+        function renderNotes() {
+            const notes = getNotes();
+            notesContainer.innerHTML = notes.map(note => `
+                <div class="note">
+                    <p>${note.content.replace(/\n/g, '<br>')}</p>
+                    <small>${note.timestamp}</small>
+                    <a href="#" onclick="deleteNote(${note.id}); return false;" class="delete">×</a>
+                </div>
+            `).join('');
+        }
+
+        // Form submit
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const content = input.value.trim();
+            if (content) {
+                saveNote(content);
+                input.value = '';
+                // optional: sync to server too if you want both
+                fetch('/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `note=${encodeURIComponent(content)}`
+                });
+            }
+        });
+
+        // Load on start
+        renderNotes();
+
+        // Auto-save draft while typing
+        input.addEventListener('input', () => {
+            localStorage.setItem('draftNote', input.value);
+        });
+
+        // Restore draft
+        if (localStorage.getItem('draftNote')) {
+            input.value = localStorage.getItem('draftNote');
+        }
+    </script>
+</body>
+</html>
